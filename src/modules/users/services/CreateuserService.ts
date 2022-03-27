@@ -1,11 +1,10 @@
 /* eslint-disable no-empty-function */
 /* eslint-disable no-useless-constructor */
 /* eslint-disable no-unused-vars */
-import { hash } from 'bcryptjs';
 import { inject, injectable } from 'tsyringe';
-import { getRepository } from 'typeorm';
 import AppError from '../../../shared/errors/AppError';
 import User from '../infra/typeorm/entities/User';
+import IHashProvider from '../providers/IHashProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
 
 interface RequestDTO {
@@ -18,7 +17,9 @@ interface RequestDTO {
 export class CreateUserService {
   constructor(
     @inject('UsersRepository')
-    private userRepository: IUsersRepository
+    private userRepository: IUsersRepository,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider
   ) {}
 
   public async execute({ name, email, password }: RequestDTO): Promise<User> {
@@ -28,7 +29,7 @@ export class CreateUserService {
       throw new AppError('E-mail already in use');
     }
 
-    const hashedPassowrd = await hash(password, 8);
+    const hashedPassowrd = await this.hashProvider.hashPassword(password);
 
     const user = this.userRepository.create({
       name,

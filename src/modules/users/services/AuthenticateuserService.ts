@@ -1,14 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-constructor */
 /* eslint-disable no-empty-function */
-import { compare } from 'bcryptjs';
-import { getRepository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 import User from '../infra/typeorm/entities/User';
 import authConfig from '../../../config/auth';
 import AppError from '../../../shared/errors/AppError';
 import IUsersRepository from '../repositories/IUsersRepository';
+import IHashProvider from '../providers/IHashProvider';
 
 interface Request {
   email: string;
@@ -24,7 +23,9 @@ interface Response {
 class AuthenticateUserService {
   constructor(
     @inject('UsersRepository')
-    private userRepository: IUsersRepository
+    private userRepository: IUsersRepository,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider
   ) {}
 
   public async execute({ email, password }: Request): Promise<Response> {
@@ -36,7 +37,10 @@ class AuthenticateUserService {
       throw new AppError('email/password incorrect', 400);
     }
 
-    const matchedPassword = await compare(password, user.password);
+    const matchedPassword = await this.hashProvider.comparePassword(
+      password,
+      user.password
+    );
 
     if (!matchedPassword) {
       throw new AppError('email/password incorrect', 401);

@@ -1,7 +1,6 @@
 /* eslint-disable no-empty-function */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-constructor */
-import { getRepository } from 'typeorm';
 import { inject, injectable } from 'tsyringe';
 import Notes from '../infra/typeorm/entities/Notes';
 import AppError from '../../../shared/errors/AppError';
