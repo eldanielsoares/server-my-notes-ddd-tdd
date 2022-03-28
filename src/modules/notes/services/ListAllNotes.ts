@@ -18,7 +18,7 @@ class ListAllNotes {
   ) {}
 
   public async execute({ user_id }: Request): Promise<Notes[]> {
-    const notes = await this.noteRepository.findById(user_id);
+    const notes = await this.noteRepository.findNotes(user_id);
 
     if (!user_id) {
       throw new AppError('Only authenticated users can get notes', 401);
