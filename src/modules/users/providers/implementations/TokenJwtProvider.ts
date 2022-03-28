@@ -1,6 +1,6 @@
 import { sign } from 'jsonwebtoken';
 import ITokenJwtDTO from '../../dtos/ITokenJwtDTO';
-import ITokenJwtProvider from '../../providers/ITokenJwtProvider';
+import ITokenJwtProvider from '../models/ITokenJwtProvider';
 
 class TokenJwtProvider implements ITokenJwtProvider {
   sign({ secret, id, expiresIn }: ITokenJwtDTO): string {

@@ -7,8 +7,8 @@ import User from '../infra/typeorm/entities/User';
 import authConfig from '../../../config/auth';
 import AppError from '../../../shared/errors/AppError';
 import IUsersRepository from '../repositories/IUsersRepository';
-import IHashProvider from '../providers/IHashProvider';
-import ITokenJwtProvider from '../providers/ITokenJwtProvider';
+import IHashProvider from '../providers/models/IHashProvider';
+import ITokenJwtProvider from '../providers/models/ITokenJwtProvider';
 
 interface Request {
   email: string;

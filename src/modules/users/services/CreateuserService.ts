@@ -4,7 +4,7 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '../../../shared/errors/AppError';
 import User from '../infra/typeorm/entities/User';
-import IHashProvider from '../providers/IHashProvider';
+import IHashProvider from '../providers/models/IHashProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
 
 interface RequestDTO {
