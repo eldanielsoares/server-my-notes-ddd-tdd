@@ -10,7 +10,15 @@ class NotesRepository implements INotesRepository {
     this.ormConfig = getRepository(Notes);
   }
 
-  public async findById(user_id: string): Promise<Notes[]> {
+  public async findById(id: string): Promise<Notes> {
+    const notes = this.ormConfig.findOne({
+      where: { id },
+    });
+
+    return notes;
+  }
+
+  public async findNotes(user_id: string): Promise<Notes[]> {
     const notes = this.ormConfig.find({
       where: { user_id },
     });
@@ -24,6 +32,10 @@ class NotesRepository implements INotesRepository {
     await this.ormConfig.save(note);
 
     return note;
+  }
+
+  public async deleteNote(note: Notes): Promise<void> {
+    await this.ormConfig.remove(note);
   }
 }
 
