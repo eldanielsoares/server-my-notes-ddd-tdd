@@ -37,6 +37,11 @@ class NotesRepository implements INotesRepository {
   public async deleteNote(note: Notes): Promise<void> {
     await this.ormConfig.remove(note);
   }
+
+  public async updateNote(note: Notes): Promise<Notes> {
+    const updatedNote = await this.ormConfig.save(note);
+    return updatedNote;
+  }
 }
 
 export default NotesRepository;

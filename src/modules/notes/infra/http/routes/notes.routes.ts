@@ -13,4 +13,6 @@ notesRouter.post('/', notesController.create);
 
 notesRouter.delete('/delete', notesController.delete);
 
+notesRouter.put('/update', notesController.update);
+
 export default notesRouter;

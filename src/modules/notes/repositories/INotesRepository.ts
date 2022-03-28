@@ -4,7 +4,8 @@ import Notes from '../infra/typeorm/entities/Notes';
 
 export default interface INotesRepository {
   create(data: ICreateNotes): Promise<Notes>;
-  findById(user_id: string): Promise<Notes | undefined>;
+  findById(id: string): Promise<Notes | undefined>;
   findNotes(user_id: string): Promise<Notes[] | undefined>;
   deleteNote(note: Notes): Promise<void>;
+  updateNote(note: Notes): Promise<Notes>;
 }
