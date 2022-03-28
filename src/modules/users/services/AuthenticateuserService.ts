@@ -8,6 +8,7 @@ import authConfig from '../../../config/auth';
 import AppError from '../../../shared/errors/AppError';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/IHashProvider';
+import ITokenJwtProvider from '../providers/ITokenJwtProvider';
 
 interface Request {
   email: string;
@@ -25,7 +26,9 @@ class AuthenticateUserService {
     @inject('UsersRepository')
     private userRepository: IUsersRepository,
     @inject('HashProvider')
-    private hashProvider: IHashProvider
+    private hashProvider: IHashProvider,
+    @inject('TokenProvider')
+    private tokenProvider: ITokenJwtProvider
   ) {}
 
   public async execute({ email, password }: Request): Promise<Response> {
@@ -48,10 +51,7 @@ class AuthenticateUserService {
 
     const { secret, expiresIn } = authConfig.jwt;
 
-    const token = sign({}, secret, {
-      subject: user.id,
-      expiresIn,
-    });
+    const token = this.tokenProvider.sign({ secret, id: user.id, expiresIn });
 
     return { user, token };
   }
