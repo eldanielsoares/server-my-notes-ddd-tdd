@@ -25,7 +25,7 @@ class ListAllNotes {
     }
 
     if (!notes) {
-      throw new AppError('None of notes is found', 404);
+      throw new AppError('None note is found', 404);
     }
     return notes;
   }
