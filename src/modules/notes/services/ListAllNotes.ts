@@ -24,7 +24,7 @@ class ListAllNotes {
       throw new AppError('Only authenticated users can get notes', 401);
     }
 
-    if (!notes) {
+    if (notes.length === 0) {
       throw new AppError('None note is found', 404);
     }
     return notes;
